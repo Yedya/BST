@@ -9,36 +9,66 @@ using namespace std;
 
 
 BST::BST(){
-	
+	root = NULL;
 
 }
+
+struct treeNode* BST::getRoot()
+{
+	return root;
+}
+
 
 // Space 0(1)
 // Time 0(1)
-struct treeNode* BST::newNode(int key)
-{
-	struct treeNode *new_Node = new treeNode;
-	new_Node->Key = key;
-	new_Node->left = new_Node->right=NULL;
-	return new_Node;
+void BST::newNode(int key){
+	if(root != NULL)
+	{
+		Insert(root, key);
+	}
+	else
+	{
+		root = new treeNode;
+		root->Key = key;
+		root->left = NULL;
+		root->right = NULL;
+	}
 }
-
 
 // Space 0(N)
 // Time 0(log(n))
-struct treeNode* BST::Insert(struct treeNode* node,int key)
-{
+void BST::Insert(struct treeNode* node,int key)               
+{ 
+	if(key < node->Key)
+	{
+		if(node->left != NULL)
+		{
+			Insert(node->left, key);
+		}
+		else
+		{
+			node->left = new treeNode;
+			node->left->Key = key;
+			node->left->left = NULL;
+			node->left->right = NULL;
+		}
+	}
+	else if(key >= node->Key)
+	{
+		if(node->right != NULL)
+		{
+			Insert(node->right, key);
+		}
+		else
+		{
+			node->right = new treeNode;
+			node->right->Key = key;
+			node->right->right = NULL;
+			node->right->left = NULL;
+		}
+	}
 
-    if (node == NULL) return newNode(key);
-     
-    if (key < node->Key)
-        node->left  = Insert(node->left, key);
-    else if (key > node->Key)
-        node->right = Insert(node->right, key);   
- 
-    return node;
 }
-
 
 //Priniting in order   left<-root->right 
 // Space 0(N)
@@ -55,37 +85,19 @@ void BST::PrintTree(struct treeNode *root)
 
 }
 
-
 // Space 0(N)
 // Time 0(log(n))
-void BST::Search(struct treeNode *root, int data)
+struct treeNode* BST::Search(struct treeNode *root, int key)
 {
-	int depth = 0;
-
-	//Create a temp node pointer
-	treeNode *temp = new treeNode;
-	//Point to the root
-	temp = root;
-
-
-	// Run the loop untill temp points to a NULL pointer.
-	while(temp != NULL)
-	{
-		depth++;
-		if(temp->Key == data)
-		{
-			cout<<"Node found :   " << temp->Key <<endl;
-			cout<<"\nData found at depth:  "<<depth <<endl;
-			return;
-		}
-		// Move the  pointer to left child.
-		else if(temp->Key > data)
-			temp = temp->left;
-		// Move the pointer to right child.
-		else
-			temp = temp->right;
-	}
- 
-	cout<<"\n Data not found";
-	return;
+  if(root!=NULL)
+  {
+    if(key==root->Key)
+      return root;
+    if(key<root->Key)
+      return Search(root->left,key);
+    else
+      return Search(root->right,key);
+  }
+  else return NULL;
+  
 }

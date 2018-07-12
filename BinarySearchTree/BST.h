@@ -18,13 +18,14 @@ class BST
 {
 	public:
 		BST();
-		struct treeNode* newNode(int key);
-		struct treeNode* Insert(treeNode *node,int key);
-		void Search(struct treeNode *node, int key);
+		void newNode(int key);
+		void Insert(struct treeNode* node,int key); 
+		struct treeNode* BST::Search(struct treeNode *root, int key);
 		void PrintTree(treeNode *node);
+		struct treeNode* getRoot();
 
 	private:
-
+		struct treeNode *root;
 
 	
 };

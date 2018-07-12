@@ -13,24 +13,24 @@ using namespace std;
 
 int main()
 {
-	BST *BS_Tree = new BST();
-	
+	BST BS_Tree = BST();
+	BS_Tree.newNode(63);
+	BS_Tree.newNode(5);
+	BS_Tree.newNode(1);
+	BS_Tree.newNode(14);
+	BS_Tree.newNode(24);
 
-	//Root
-	struct treeNode *root = NULL;
-	root = BS_Tree->Insert(root,30);
-	BS_Tree->Insert(root,54);
-	BS_Tree->Insert(root,22);
-	BS_Tree->Insert(root,35);
-	BS_Tree->Insert(root,61);
-	BS_Tree->Insert(root,52);
 
-   // Print the tree
-    BS_Tree->PrintTree(root);
+	// Print the tree
+	 BS_Tree.PrintTree(BS_Tree.getRoot());
 
-	
-	BS_Tree->Search(root,22);
 
+	 // Node not found example
+	 if(BS_Tree.Search(BS_Tree.getRoot(),13)!=NULL)
+	 {
+		  cout << BS_Tree.Search(BS_Tree.getRoot(),14)->Key;
+	 }
+	 else cout << "Node not found" <<endl;
 
 
 
