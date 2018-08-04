@@ -9,7 +9,25 @@ using namespace std;
 
 
 BST::BST(){
-	root = NULL;
+	root = nullptr;
+
+}
+
+BST::~BST()
+{
+  destroy_tree(root);
+}
+
+
+void BST::destroy_tree(treeNode *root)
+{
+	if(root!=NULL)
+	{
+		destroy_tree(root->left);
+		destroy_tree(root->right);
+		delete root;
+	}
+
 
 }
 
@@ -21,10 +39,10 @@ struct treeNode* BST::getRoot()
 
 // Space 0(1)
 // Time 0(1)
-void BST::newNode(int key){
+void BST::Insert(int key){
 	if(root != NULL)
 	{
-		Insert(root, key);
+		_Insert(root, key);
 	}
 	else
 	{
@@ -35,36 +53,48 @@ void BST::newNode(int key){
 	}
 }
 
+void BST::insertLeft(treeNode *node,int key)
+{
+	node->left = new treeNode;
+	node->left->Key = key;
+	node->left->left = NULL;
+	node->left->right = NULL;
+
+}
+
+void BST::insertRight(treeNode *node,int key)
+{
+	node->right = new treeNode;
+	node->right->Key = key;
+	node->right->right = NULL;
+	node->right->left = NULL;
+
+}
+
 // Space 0(N)
 // Time 0(log(n))
-void BST::Insert(struct treeNode* node,int key)               
+void BST::_Insert(struct treeNode* node,int key)               
 { 
 	if(key < node->Key)
 	{
 		if(node->left != NULL)
 		{
-			Insert(node->left, key);
+			_Insert(node->left, key);
 		}
 		else
 		{
-			node->left = new treeNode;
-			node->left->Key = key;
-			node->left->left = NULL;
-			node->left->right = NULL;
+			insertLeft(node,key);
 		}
 	}
 	else if(key >= node->Key)
 	{
 		if(node->right != NULL)
 		{
-			Insert(node->right, key);
+			_Insert(node->right, key);
 		}
 		else
 		{
-			node->right = new treeNode;
-			node->right->Key = key;
-			node->right->right = NULL;
-			node->right->left = NULL;
+			insertRight(node,key);
 		}
 	}
 
@@ -73,17 +103,26 @@ void BST::Insert(struct treeNode* node,int key)
 //Priniting in order   left<-root->right 
 // Space 0(N)
 // Time 0(N)
-void BST::PrintTree(struct treeNode *root)
+void BST::PrintInOrder(treeNode *root)
 {
 	
 	if(root!=NULL)
 	{
-		PrintTree(root->left);
+		PrintInOrder(root->left);
 		printf("%d \n", root->Key);
-		PrintTree(root->right);
+		PrintInOrder(root->right);
 	}
 
 }
+
+void BST::PrintTree()
+{
+	
+	PrintInOrder(root);
+
+}
+
+
 
 // Space 0(N)
 // Time 0(log(n))
@@ -91,9 +130,9 @@ struct treeNode* BST::Search(struct treeNode *root, int key)
 {
   if(root!=NULL)
   {
-    if(key==root->Key)
+    if(key == root->Key)
       return root;
-    if(key<root->Key)
+    if(key < root->Key)
       return Search(root->left,key);
     else
       return Search(root->right,key);
