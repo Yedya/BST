@@ -36,7 +36,6 @@ struct treeNode* BST::getRoot()
 	return root;
 }
 
-
 // Space 0(1)
 // Time 0(1)
 void BST::Insert(int key){
@@ -53,6 +52,9 @@ void BST::Insert(int key){
 	}
 }
 
+
+// Space 0(1)
+// Time 0(1)
 void BST::insertLeft(treeNode *node,int key)
 {
 	node->left = new treeNode;
@@ -62,6 +64,8 @@ void BST::insertLeft(treeNode *node,int key)
 
 }
 
+// Space 0(1)
+// Time 0(1)
 void BST::insertRight(treeNode *node,int key)
 {
 	node->right = new treeNode;
@@ -121,8 +125,6 @@ void BST::PrintTree()
 	PrintInOrder(root);
 
 }
-
-
 
 // Space 0(N)
 // Time 0(log(n))
