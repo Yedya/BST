@@ -6,8 +6,6 @@ using namespace std;
 #include <map>
 
 
-
-
 OrderedMap::OrderedMap(){
 	
 	
@@ -17,7 +15,19 @@ OrderedMap::OrderedMap(){
 
 OrderedMap::~OrderedMap()
 {
-  
+  destroy_tree(root);
+}
+
+void OrderedMap::destroy_tree(node *root)
+{
+	if(root!=NULL)
+	{
+		destroy_tree(root->left);
+		destroy_tree(root->right);
+		delete root;
+	}
+
+
 }
 
 void OrderedMap::InsertRight(node *nodeToInsert,string key,string value)
@@ -38,13 +48,20 @@ void OrderedMap::InsertLeft(node *nodeToInsert,string key,string value)
 	nodeToInsert->left->right = NULL;
 }
 
-void OrderedMap::InsertNewPlayer(string key,string value)
+void OrderedMap::InsertPlayer(string key,string value)
 {
-
 	if(root!=NULL)
 	{
-		
-		Insert(root,key,value);
+		if(!doesPlayerExist(key))
+		{
+			Insert(root,key,value);
+		}
+		else
+		{
+			// Question_1 is this safe?
+			getNode(root,key)->value = value;
+			return;
+		}
 	}
 	else
 	{
@@ -53,32 +70,12 @@ void OrderedMap::InsertNewPlayer(string key,string value)
 		root->value = value;
 		root->left = NULL;
 		root->right = NULL;
-
-	}
-
-
-}
-void OrderedMap::PrintInOrder(node *root)
-{
-
-	if(root!=NULL)
-	{
-		PrintInOrder(root->left);
-		cout <<  root->value  <<endl;
-		PrintInOrder(root->right);
-
 	}
 }
-
-void OrderedMap::Print()
-{
-	PrintInOrder(root);
-}
-
 
 void OrderedMap::Insert(node *root,string key,string value)
 {
-
+	
 	if(key < root->key)
 	{
 		if(root->left != NULL)
@@ -104,84 +101,63 @@ void OrderedMap::Insert(node *root,string key,string value)
 
 }
 
-void OrderedMap::Insert(string key,string value)
+void OrderedMap::PreOrderTraversal(node *root)
 {
-	std::map<string,string>::iterator playerIter = mapOfPlayers.begin();
-	//map->apply([=](const std::string& value){ cout << value; })
-	mapOfPlayers.insert(pair<string,string>(key,value));
-
-
-	while(playerIter!=mapOfPlayers.end())
+	if(root!=NULL)
 	{
-		cout <<  playerIter->second <<endl;
-		playerIter++;
+		cout <<  root->value  <<endl;
+		PreOrderTraversal(root->left);
+		PreOrderTraversal(root->right);
 	}
+}
+
+void OrderedMap::Print()
+{
+	PreOrderTraversal(root);
+}
+
+string OrderedMap::Find(node *root,string key)
+{
 	
+  if(root!=NULL)
+  {
+    if(key == root->key)
+		return root->value;
+    if(key < root->key)
+      return Find(root->left,key);
+    else
+      return Find(root->right,key);
+  }
+  else return "Not Found ";
 
 
 }
 
-string OrderedMap::Search(string key)
+string OrderedMap::FindPlayer(string key)
 {
-	std::map<string,string>::iterator playerIter = mapOfPlayers.begin();
-	if (mapOfPlayers.find(key) != mapOfPlayers.end() )
-	{
-		playerIter = mapOfPlayers.find(key);
-		return playerIter->first;
-	} 
-
-	return "Not Found";
+	return Find(root,key);
 }
 
-string OrderedMap::findEntry(string key)
+struct node* OrderedMap::getNode(node *root,string key)
 {
 
-	node *curr = root;
-	node *prev = root;
-
-	while(curr!=NULL)
+	if(root!=NULL)
 	{
-		if(key.compare(curr->key)< 0 )
-		{
-			prev = curr;
-			curr = curr->left; // Continue search in left subtree
-		}
-		else if(key.compare(curr->key) >  0 )
-		{
-			prev = curr;
-			curr = curr->right; // Continue search in right subtree
-		}
+		if(key == root->key)
+			return root;
+		else if(key > root->key)
+			return getNode(root->right,key);
 		else
-		{
-			return curr->key;
-		}
-
+			return getNode(root->left,key);
 	}
-	return "Not Found";
+	else return nullptr;
 
 }
 
-void OrderedMap::insertToMap(string key,string value)
+bool OrderedMap::doesPlayerExist(string key)
 {
-	node *curr = root;
-	map<string,string>::iterator itr  = mapOfPlayers.begin();
-	
+	if(FindPlayer(key)== "Not Found ") return false;
 
-	//If Tree is empty
-	if(root==NULL)
-	{
-		InsertNewPlayer(key,value);
-		return;
-	}
-
-	itr = mapOfPlayers.find(key);
-
-	if(key==itr->first)
-	{
-		itr->second = value;
-		return;
-
-	}
-
-
+	return true;
 }
+

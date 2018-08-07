@@ -27,7 +27,6 @@ class BST
 		void PrintTree();
 		void PrintInOrder(treeNode *root);
 		void destroy_tree(treeNode *node);
-
 		struct treeNode* getRoot();
 
 	private:
