@@ -34,7 +34,7 @@ int main()
 	BS_Tree.Insert(14);
 	BS_Tree.Insert(24);
 
-	BS_Tree.PrintTree();
+	//BS_Tree.PrintTree();
 	
 	vector<int> v;
 
@@ -45,11 +45,22 @@ int main()
 
 	OrderedMap houseForPlayer;
 
+	houseForPlayer.InsertNewPlayer("greg", "Griffin");
 	houseForPlayer.InsertNewPlayer("daniel", "slytherin");
-	houseForPlayer.InsertNewPlayer("conor", "gryffindor");
-	houseForPlayer.InsertNewPlayer("greg", "hufflepuff");
+	//houseForPlayer.InsertNewPlayer("conor", "hufflepuff");
+	houseForPlayer.Print();
+	//cout << houseForPlayer.findEntry("greg");
 
 
+	//houseForPlayer.Insert("daniel", "slytherin");
+	//houseForPlayer.Insert("conor", "gryffindor");
+	//houseForPlayer.Insert("greg", "hufflepuff");
+	//
+	//cout << houseForPlayer.Search("greg");
+	//std::string houseForBob = m.find("bob");
+	//if(!houseForBob.empty()) {
+	//	cout << "Bob's house is: " << houseForBob;
+	//}
 
 
 	system("pause");

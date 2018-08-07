@@ -7,14 +7,13 @@ using namespace std;
 #include<stdio.h>
 #include<stdlib.h>
 
-struct node{
-
-	node *left;
-	node *right;
-
+struct node
+{
 	string key;
 	string value;
 
+	node *left;
+	node *right;
 };
 
 
@@ -23,12 +22,21 @@ class OrderedMap
 	public:
 		OrderedMap();
 		~OrderedMap();
-		void InsertLeft(node *nodeToInsert,string value,string key);
+		void Insert(string key,string value);
+		string Search(string key);
+		string findEntry(string key);
+		void insertToMap(string key,string value);
+
 		void InsertRight(node *nodeToInsert,string value,string key);
-		void Insert(node *root,string key,string value);
+		void InsertLeft(node *nodeToInsert,string value,string key);
 		void InsertNewPlayer(string key,string value);
+		void Insert(node *root,string key,string value);
+		void PrintInOrder(node *root);
+		void Print();
+		//void InsertNewPlayer(string key,string value);
 
 	private:
+		std::map<string,string> mapOfPlayers;
 		node *root;
 	
 
